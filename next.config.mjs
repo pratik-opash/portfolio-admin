@@ -29,12 +29,11 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "example.com",
-        port: ""
+        hostname: "**.portfolio-backend-khaki-seven.vercel.app",
       },
       {
         protocol: "https",
-        hostname: "portfolio-backend-khaki-seven.vercel.app",
+        hostname: "example.com",
         port: ""
       },
     ]
