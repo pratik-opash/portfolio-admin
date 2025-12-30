@@ -8,7 +8,7 @@ import { OverviewCardsSkeleton } from "./skeleton";
 
 export function OverviewCardsGroup() {
   const { data: stats, isLoading } = useGetStatsQuery(undefined);
-
+  console.log(stats , "stats")
   if (isLoading) return <OverviewCardsSkeleton />;
 
   // Mapping API response to the format expected by OverviewCard.
@@ -18,10 +18,6 @@ export function OverviewCardsGroup() {
   // I will assume it returns counts for blogs, projects, etc.
   
   // Default values if API structure differs or is empty
-  const viewsValue = stats?.blogs || 0; 
-  const profitValue = stats?.projects || 0; 
-  const productsValue = stats?.contacts || 0;
-  // const usersValue = stats?.users || 0; // If users count is available
 
   // Since I don't know the EXACT field names from the API response for 'stats', 
   // I will make a best guess based on the "Auth, Blog, Project, Contact" routes available.
@@ -40,7 +36,7 @@ export function OverviewCardsGroup() {
       <OverviewCard
         label="Total Blogs"
         data={{
-          value: compactFormat(stats?.totalBlogs || 0),
+          value: compactFormat(stats?.data?.blogs || 0),
           growthRate: 0, 
         }}
         Icon={icons.Views}
@@ -49,7 +45,7 @@ export function OverviewCardsGroup() {
       <OverviewCard
         label="Total Projects"
         data={{
-          value: compactFormat(stats?.totalProjects || 0),
+          value: compactFormat(stats?.data?.projects || 0),
           growthRate: 0,
         }}
         Icon={icons.Profit}
@@ -58,7 +54,7 @@ export function OverviewCardsGroup() {
       <OverviewCard
         label="Total Contacts"
         data={{
-          value: compactFormat(stats?.totalContacts || 0),
+          value: compactFormat(stats?.data?.contacts || 0),
           growthRate: 0,
         }}
         Icon={icons.Product}
@@ -67,7 +63,7 @@ export function OverviewCardsGroup() {
       <OverviewCard
         label="Total Users"
         data={{
-          value: compactFormat(stats?.users || 0),
+          value: compactFormat(stats?.data?.users || 0),
           growthRate: 0,
         }}
         Icon={icons.Users}

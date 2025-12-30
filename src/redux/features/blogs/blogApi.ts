@@ -4,7 +4,10 @@ import { apiSlice } from '../../api/apiSlice';
 export const blogApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getBlogs: builder.query({
-      query: () => '/blogs',
+      query: (params: { page?: number; limit?: number } | void) => {
+        const { page = 1, limit = 10 } = params || {};
+        return `/blogs?page=${page}&limit=${limit}`;
+      },
       providesTags: ['Blog'],
     }),
     getBlogById: builder.query({

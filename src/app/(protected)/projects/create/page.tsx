@@ -6,9 +6,17 @@ import { useCreateProjectMutation } from '@/redux/features/projects/projectApi';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
+import { FloatingAlert } from "@/components/ui-elements/alert/FloatingAlert";
+
 export default function CreateProjectPage() {
   const [createProject, { isLoading }] = useCreateProjectMutation();
   const router = useRouter();
+
+  const [alert, setAlert] = useState<{ show: boolean; message: string; variant: "success" | "error" }>({
+    show: false,
+    message: '',
+    variant: 'success'
+  });
 
   const [formData, setFormData] = useState({
     title: '',
@@ -40,14 +48,27 @@ export default function CreateProjectPage() {
       }
 
       await createProject(data).unwrap();
-      router.push('/projects');
-    } catch (err) {
-      console.error('Failed to create project', err);
+      setAlert({ show: true, message: 'Project created successfully!', variant: 'success' });
+      setTimeout(() => router.push('/projects'), 1500);
+    } catch (err: any) {
+      console.error('Failed to create project', JSON.stringify(err, null, 2));
+      setAlert({ 
+        show: true, 
+        message: err?.data?.message || 'Failed to create project. Check console for details.', 
+        variant: 'error' 
+      });
     }
   };
 
   return (
     <>
+      <FloatingAlert
+        isVisible={alert.show}
+        onClose={() => setAlert({ ...alert, show: false })}
+        title={alert.variant === 'success' ? 'Success' : 'Error'}
+        description={alert.message}
+        variant={alert.variant}
+      />
       <Breadcrumb pageName="Create Project" />
 
       <div className="grid grid-cols-1 gap-9 sm:grid-cols-1">

@@ -4,7 +4,10 @@ import { apiSlice } from '../../api/apiSlice';
 export const projectApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getProjects: builder.query({
-      query: () => '/projects',
+      query: (params: { page?: number; limit?: number } | void) => {
+         const { page = 1, limit = 10 } = params || {};
+         return `/projects?page=${page}&limit=${limit}`;
+      },
       providesTags: ['Project'],
     }),
     getProjectById: builder.query({
