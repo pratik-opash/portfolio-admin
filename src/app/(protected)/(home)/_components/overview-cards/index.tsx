@@ -8,7 +8,7 @@ import { OverviewCardsSkeleton } from "./skeleton";
 
 export function OverviewCardsGroup() {
   const { data: stats, isLoading } = useGetStatsQuery(undefined);
-  console.log(stats , "stats")
+  // console.log(stats , "stats")
   if (isLoading) return <OverviewCardsSkeleton />;
 
   // Mapping API response to the format expected by OverviewCard.
